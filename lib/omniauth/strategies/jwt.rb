@@ -38,7 +38,7 @@ module OmniAuth
         fail! :claim_invalid, e
       end
       
-      uid{ decoded[options[0].uid_claim] }
+      uid{ decoded[0][options.uid_claim] }
       
       extra do
         {:raw_info => decoded[0]}
