@@ -25,9 +25,9 @@ module OmniAuth
       def decoded
         @decoded ||= ::JWT.decode(request.params['jwt'], options.secret, options.algorithm)
         (options.required_claims || []).each do |field|
-          raise ClaimInvalid.new("Missing required '#{field}' claim.") if !@decoded.key?(field.to_s)
+          raise ClaimInvalid.new("Missing required '#{field}' claim.") if !@decoded[0].key?(field.to_s)
         end
-        raise ClaimInvalid.new("Missing required 'iat' claim.") if options.valid_within && !@decoded["iat"]
+        raise ClaimInvalid.new("Missing required 'iat' claim.") if options.valid_within && !@decoded[0]["iat"]
         raise ClaimInvalid.new("'iat' timestamp claim is too skewed from present.") if options.valid_within && (Time.now.to_i - @decoded["iat"]).abs > options.valid_within
         @decoded
       end
