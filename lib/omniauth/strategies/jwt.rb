@@ -38,15 +38,15 @@ module OmniAuth
         fail! :claim_invalid, e
       end
       
-      uid{ decoded[options.uid_claim] }
+      uid{ decoded[options[0].uid_claim] }
       
       extra do
-        {:raw_info => decoded}
+        {:raw_info => decoded[0]}
       end
       
       info do
         options.info_map.inject({}) do |h,(k,v)|
-          h[k.to_s] = decoded[v.to_s]
+          h[k.to_s] = decoded[0][v.to_s]
           h
         end
       end
